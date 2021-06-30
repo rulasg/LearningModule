@@ -20,4 +20,5 @@ Export-ModuleMember -Function Invoke-Throw -Alias 'it'
 Export-ModuleMember -Function Invoke-WriteError -Alias 'iwe'
 
 Export-ModuleMember -Function Get-LearningVerbosePreference
-Export-ModuleMember -Function Get-ErrorActionPreference
+Export-ModuleMember -Function Get-LearningErrorActionPreference
+Export-ModuleMember -Function Get-LearningErrorActionPreferenceWithPSCmdletVariable

@@ -197,7 +197,7 @@ function Test-VerbosePreference_Environment_Nested_Verbose {
 function Test-ErrorActionPreference_Default {
     [CmdletBinding()] param ()
 
-    $result = Get-ErrorActionPreference
+    $result = Get-LearningErrorActionPreference
     Assert-AreEqual -Expected 'Continue' -Presented $result
 }
 
@@ -206,7 +206,7 @@ function Test-ErrorActionPreference_Environment {
 
     $ErrorActionPreference = 'Inquire'
 
-    $result = Get-ErrorActionPreference
+    $result = Get-LearningErrorActionPreference
     Assert-AreEqual -Expected 'Continue' -Presented $result
 }
 
@@ -215,7 +215,7 @@ function Test-ErrorActionPreference_Environment_Inquire {
 
     $ErrorActionPreference = 'SilentlyContinue'
 
-    $result = Get-ErrorActionPreference -ErrorAction 'Inquire'
+    $result = Get-LearningErrorActionPreference -ErrorAction 'Inquire'
     Assert-AreEqual -Expected 'Inquire' -Presented $result
 }
 
@@ -224,7 +224,7 @@ function Test-ErrorActionPreference_Environment_Inquire_Recurse {
 
     $ErrorActionPreference = 'SilentlyContinue'
 
-    $result = Get-ErrorActionPreference -Recurse -ErrorAction 'Inquire'
+    $result = Get-LearningErrorActionPreference -Recurse -ErrorAction 'Inquire'
     Assert-AreEqual -Expected 'Inquire' -Presented $result
 }
 
@@ -233,7 +233,7 @@ function Test-ErrorActionPreference_Environment_Inquire_Nested {
 
     $ErrorActionPreference = 'SilentlyContinue'
 
-    $result = Get-ErrorActionPreference -Nested -ErrorAction 'Inquire'
+    $result = Get-LearningErrorActionPreference -Nested -ErrorAction 'Inquire'
     Assert-AreEqual -Expected 'Continue' -Presented $result
 }
 
@@ -242,9 +242,62 @@ function Test-ErrorActionPreference_Environment_Inquire_Nested_Recurse {
 
     $ErrorActionPreference = 'SilentlyContinue'
 
-    $result = Get-ErrorActionPreference -Nested -Recurse -ErrorAction 'Inquire'
+    $result = Get-LearningErrorActionPreference -Nested -Recurse -ErrorAction 'Inquire'
     Assert-AreEqual -Expected 'Continue' -Presented $result
 }
+
+function Test-ErrorActionPreference_PSCmdletVariable_Default {
+    [CmdletBinding()] param ()
+
+    $result = Get-LearningErrorActionPreferenceWithPSCmdletVariable
+    Assert-AreEqual -Expected 'Continue' -Presented $result
+}
+
+function Test-ErrorActionPreference_PSCmdletVariable_Environment {
+    [CmdletBinding()] param ()
+
+    $ErrorActionPreference = 'Inquire'
+
+    $result = Get-LearningErrorActionPreferenceWithPSCmdletVariable
+    Assert-AreEqual -Expected 'Inquire' -Presented $result
+}
+
+function Test-ErrorActionPreference_PSCmdletVariable_Environment_Inquire {
+    [CmdletBinding()] param ()
+
+    $ErrorActionPreference = 'SilentlyContinue'
+
+    $result = Get-LearningErrorActionPreferenceWithPSCmdletVariable -ErrorAction 'Inquire'
+    Assert-AreEqual -Expected 'SilentlyContinue' -Presented $result
+}
+
+function Test-ErrorActionPreference_PSCmdletVariable_Environment_Inquire_Recurse {
+    [CmdletBinding()] param ()
+
+    $ErrorActionPreference = 'SilentlyContinue'
+
+    $result = Get-LearningErrorActionPreferenceWithPSCmdletVariable -Recurse -ErrorAction 'Inquire'
+    Assert-AreEqual -Expected 'SilentlyContinue' -Presented $result
+}
+
+function Test-ErrorActionPreference_PSCmdletVariable_Environment_Inquire_Nested {
+    [CmdletBinding()] param ()
+
+    $ErrorActionPreference = 'SilentlyContinue'
+
+    $result = Get-LearningErrorActionPreferenceWithPSCmdletVariable -Nested -ErrorAction 'Inquire'
+    Assert-AreEqual -Expected 'SilentlyContinue' -Presented $result
+}
+
+function Test-ErrorActionPreference_PSCmdletVariable_Environment_Inquire_Nested_Recurse {
+    [CmdletBinding()] param ()
+
+    $ErrorActionPreference = 'SilentlyContinue'
+
+    $result = Get-LearningErrorActionPreferenceWithPSCmdletVariable -Nested -Recurse -ErrorAction 'Inquire'
+    Assert-AreEqual -Expected 'SilentlyContinue' -Presented $result
+}
+
 
 ## ErrorWrite
 

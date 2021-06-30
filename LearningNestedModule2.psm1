@@ -22,7 +22,7 @@ function Get-LearningVerbosePreference2 {
     end {}
 } Export-ModuleMember -Function Get-LearningVerbosePreference2
 
-function Get-ErrorActionPreference2 {
+function Get-LearningErrorActionPreference2 {
     [CmdletBinding()]
     param (
         [parameter()][switch] $Recurse
@@ -30,11 +30,28 @@ function Get-ErrorActionPreference2 {
     
     begin {
         if ($Recurse) {
-            return Get-ErrorActionPreference2
+            return Get-LearningErrorActionPreference2
         } else {
             return $ErrorActionPreference
         }
     }
     process {}
     end {}
-} Export-ModuleMember -Function Get-ErrorActionPreference2
+} Export-ModuleMember -Function Get-LearningErrorActionPreference2
+
+function Get-LearningErrorActionPreferenceWithPSCmdletVariable2 {
+    [CmdletBinding()]
+    param (
+        [parameter()][switch] $Recurse
+    )
+    
+    begin {
+        if ($Recurse) {
+            return Get-LearningErrorActionPreferenceWithPSCmdletVariable2
+        } else {
+            return $PSCmdlet.GetVariableValue('ErrorActionPreference')
+        }
+    }
+    process {}
+    end {}
+} Export-ModuleMember -Function Get-LearningErrorActionPreferenceWithPSCmdletVariable2

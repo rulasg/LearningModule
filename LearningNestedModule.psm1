@@ -6,61 +6,6 @@ using Module .\LearningNestedModule2.psm1
 
 Write-Host "Loading LearningNestedModule ..." -ForegroundColor DarkCyan
 
-# function Invoke-Throw {
-#     [CmdletBinding()]
-#     [Alias('it')]
-#     param (
-#         [parameter(ValueFromPipeline)] [string] $BoundParameter, 
-#         [parameter()] [switch] $OnBegin,
-#         [parameter()] [int] $OnProcess,
-#         [parameter()] [switch] $OnEnd
-#     )
-
-#     begin {
-        
-#         try {
-#             if ($OnBegin) {
-#                 throw 'OnBeging'
-#                 Write-Host 'We should never see this string'
-#             }
-    
-#             $count = 0  
-#         }
-#         catch {
-#             Write-Error -Message $_.Exception.Message
-#             Write-Host 'Line after Write-Error'
-#         }
-#     }
-    
-#     process {
-#         try {
-#                 $count++
-
-#                 "Processing [{0}]" -f $count | Write-Verbose
-        
-#                 if ($OnProcess) {
-#                     if ($count -eq $OnProcess){
-#                         throw 'OnProcess on count {0}' -f $count
-#                         Write-Host 'We should never see this string'
-
-#                     }
-#                 }
-#         }
-#         catch {
-#             Write-Error -Message $_.Exception.Message
-#             Write-Host 'Line after Write-Error'
-
-#         }
-#     }
-    
-#     end {
-#         if ($OnEnd) {
-#             throw 'OnEnd'
-#             Write-Host 'We should never see this string'
-#         }
-#     }
-# } Export-ModuleMember -Function Invoke-Throw -Alias 'it'
-
 function Invoke-Throw {
     [CmdletBinding()]
     [Alias('it')]
@@ -167,7 +112,7 @@ function Get-LearningVerbosePreference {
     end {}
 } Export-ModuleMember -Function Get-LearningVerbosePreference
 
-function Get-ErrorActionPreference {
+function Get-LearningErrorActionPreference {
     [CmdletBinding()]
     param (
         [parameter()][switch] $Recurse,
@@ -177,15 +122,38 @@ function Get-ErrorActionPreference {
     
     begin {
         if ($Nested) {
-            return Get-ErrorActionPreference2 -Recurse:$Recurse
+            return Get-LearningErrorActionPreference2 -Recurse:$Recurse
         }
 
         if ($Recurse) {
-            return Get-ErrorActionPreference
+            return Get-LearningErrorActionPreference
         } else {
             return $ErrorActionPreference
         }
     }
     process {}
     end {}
-} Export-ModuleMember -Function Get-ErrorActionPreference
+} Export-ModuleMember -Function Get-LearningErrorActionPreference
+
+function Get-LearningErrorActionPreferenceWithPSCmdletVariable {
+    [CmdletBinding()]
+    param (
+        [parameter()][switch] $Recurse,
+        [parameter()][switch] $Nested
+
+    )
+    
+    begin {
+        if ($Nested) {
+            return Get-LearningErrorActionPreferenceWithPSCmdletVariable2 -Recurse:$Recurse
+        }
+
+        if ($Recurse) {
+            return Get-LearningErrorActionPreferenceWithPSCmdletVariable
+        } else {
+            return $PSCmdlet.GetVariableValue('ErrorActionPreference')
+        }
+    }
+    process {}
+    end {}
+} Export-ModuleMember -Function Get-LearningErrorActionPreferenceWithPSCmdletVariable
